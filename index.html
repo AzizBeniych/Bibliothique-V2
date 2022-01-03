@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saddam Bibliothique</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="LOGGO.png">
+</head>
+
+<body>
+    <h1 id="slogan">Entrez Votre Livre <br><span id="here"> ICI ☛ </span></h1>
+    <img id="logo" src="LOGGO.png" alt="">
+<div class="content">
+    <img src="background.jpg" style="width: 100% ; height: 100%;">
+    <form id="validation">
+        <p id="message_titre"></p>
+        <label for=""id="labell">Titre</label>
+        <input type="text" placeholder="Veuillez saisir Titre.... " name="titreinput"> <br> 
+
+        <p id="message_auteur"></p>
+        <label for=""id="labell">Auteur</label>
+        <input type="text" placeholder="Veuillez saisir name Auteur...." name="auteurinput"><br>
+
+         <p id="message_prix"></p>
+         <label for=""id="labell">Prix</label>
+        <input type="text" placeholder="DH" name="prixinput"><br>
+
+
+        <p id="message_date"></p>
+        <label for=""id="labell">Date</label>
+        <input type="date" placeholder="Publishing date" name="date"> <br>
+
+        <p id="message_langue"></p>
+        <label for=""id="labell">Langue</label>
+        <select id="Langue" name="Langue">
+            <option disabled selected hidden value>Select Langue</option>
+            <option value="arabe">arabe</option>
+            <option value="Anglais">Anglais</option>
+            <option value="français">français</option>
+        </select> <br>
+
+<!--
+  TODO: 
+-->
+        <p id="message_email"></p>
+        <label for=""id="labell">Email</label>
+       <input type="text" placeholder="example@gmail.com" name="emailinput"><br>
+
+<!--
+  TODO: 
+-->
+        <h2 id="typetit">Type</h2>
+        <p id="message_type"></p>
+    <div class="radio_type">
+        
+         <label for="Roman">Roman</label>
+        <input type="radio" name="type" id="Roman" value="Roman">
+
+        <label for="Essai">Essai</label>
+        <input type="radio" name="type" id="Essai" value="Essai">
+
+        <label for="Bande_Dessinee">Bande_Dessinée</label>
+        <input type="radio" name="type" id="Bande_Dessinee" value="Bande_Dessinee">
+    </div>
+        <p id="valid_done"></p>
+        <input  type="submit" name="validate" value="submit" id="subm">
+
+
+    </form>
+</div>
+    <img id="backg2" src="backgroundtwo.jpg">
+    <div class="baba">
+    <table id="my_table" border="5" width="70%">
+        <h1 id="Validation">Table de Livres</h1>
+        <tr>
+            <td>Titre</td>
+            <td>Auteur</td>
+            <td>Prix</td>
+            <td>Date</td>
+            <td>Langue</td>
+            <td>Type</td>
+            <td>Email</td>
+            <td>Control</td>
+        </tr>
+
+    </table>
+</div>
+        <p id="Observation"> Observation : Si vous souhaitez modifier votre choix, cliquez sur le bouton <span style="color: brown; font-weight: bold;"> Edit </span>et modifiez dans les champs ci-dessus, puis cliquez sur le bouton <span style="color: brown; font-weight: bold;">Save</span> à côté du bouton Edit </p>
+        <p id="Observation2"> Observation : Après avoir appuyé sur le bouton <span style="color: brown; font-weight: bold;">Submit</span>, les informations que vous avez enregistrées apparaîtront dans le tableau ci-dessous</p>
+        
+        
+        <p id="saddam">Copyright ©  2010-2021 Saddam Bibliothique Company S.B. All rights reserved.</p>
+        <footer>
+        </footer>
+
+        <img id="logofooter" src="LOGGO.png" alt="">
+        <img id="logo2footer" src="Maroc.png" alt="">
+        
+
+        <button id="printbtn" onclick="print_current_page()">Print</button>
+        
+        <p id="contenttable"></p>
+
+    
+    <script>
+
+
+        var validation = document.getElementById('validation');
+
+        var Titre = validation.elements["titreinput"];
+        var message_titre = document.getElementById('message_titre');
+
+        var Auteur = validation.elements["auteurinput"];
+        var message_auteur = document.getElementById('message_auteur');
+
+        var Prix = validation.elements["prixinput"];
+        var message_prix = document.getElementById('message_prix');
+
+        var Langue = validation.elements["Langue"];
+        var message_langue = document.getElementById('message_langue');
+
+        var Typee = validation.elements["type"];
+        var message_type = document.getElementById('message_type');
+
+
+        var Datee = validation.elements["date"];
+        var message_date = document.getElementById('message_date');
+
+
+        var table = document.getElementById("my_table");
+
+
+        var email = validation.elements["emailinput"];
+        var message_email = document.getElementById("message_email");
+
+
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+        
+        var list = [];
+
+
+
+
+        class bookcontent {
+
+                constructor(Titre, Auteur, Prix, Datee, Langue,  email, Typee){
+                    this.Titre = Titre
+                    this.Auteur = Auteur
+                    this.Prix = Prix
+                    this.Datee = Datee
+                    this.Langue = Langue
+                    this.email = email
+                    this.Typee = Typee
+                    
+                }
+                tablecontent(){
+                    return "The book " + this.Titre + " is a " + this.Typee + " in " + this.Langue +" language, written by " + this.Auteur + " and published on the " + this.Datee + ". The price of " +this.Titre+ " is " + this.Prix+ " Dhs."
+                }
+            }
+
+            // const books = [];
+            // document.getElementById("demo").innerHTML = cars;
+
+
+
+
+        function validate(event) {
+            event.preventDefault();
+
+
+            var valide = true;
+
+            
+
+                
+
+                if (email.value.length > 30) {
+                    valide = false;
+                    message_email.innerHTML = ' (✖) Veuillez entrer le titre ';
+                    message_email.style.color = 'rgb(224, 0, 0)';
+                }
+
+                if(email.value.match(mailformat))
+                {
+                    message_email.innerHTML = ' Réussir ✔'; 
+                    message_email.style.color = 'green';
+                  
+                   valide = true;
+                }
+                else
+                {
+                message_email.innerHTML = ' (✖) Please Enter a Real Email ';
+                message_email.style.color = 'rgb(224, 0, 0)';              
+              
+                  valide = false;
+                }
+
+                if (email.value == "") {
+                    valide = false;
+                    message_email.innerHTML = ' *Ce champ est obligatoire';
+                    message_email.style.color = 'rgb(224, 0, 0)';
+                }
+
+
+
+
+
+
+            if (Titre.value) {
+                message_titre.innerHTML = ' Réussir  ✔';
+                message_titre.style.color = 'green';
+            }
+
+
+            if (!isNaN(Titre.value)){
+                message_titre.innerHTML = ' (✖) Please Enter Titre '
+                message_titre.style.color = "rgb(224, 0, 0)"
+                valide = false;
+                        }
+
+            if (Titre.value == "") {
+                valide = false;
+                message_titre.innerHTML = ' *Ce champ est obligatoire';
+                message_titre.style.color = 'rgb(224, 0, 0)';
+            }
+
+            if (Titre.value.length > 30) {
+                valide = false;
+                message_titre.innerHTML = ' (✖) Veuillez entrer le titre ';
+                message_titre.style.color = 'rgb(224, 0, 0)';
+            }
+
+
+
+
+
+
+
+
+            if (Auteur.value) {
+                message_auteur.innerHTML = ' Réussir  ✔';
+                message_auteur.style.color = 'green';
+            }
+
+            if (!isNaN(Auteur.value)){
+                message_auteur.innerHTML = ' (✖) Please Enter Titre '
+                message_auteur.style.color = "rgb(224, 0, 0)"
+                valide = false;
+                        }
+
+                        
+
+            if (Auteur.value == "") {
+                valide = false;
+                message_auteur.innerHTML =' *Ce champ est obligatoire';
+                message_auteur.style.color = 'rgb(224, 0, 0)';
+            }
+            if (Auteur.value.length > 30) {
+                valide = false;
+                message_auteur.innerHTML = ' (✖) Veuillez entrer le titre ';
+                message_auteur.style.color = 'rgb(224, 0, 0)';
+            }
+
+           
+
+
+
+
+
+            if (Prix.value == "") {
+                valide = false;
+                message_prix.innerHTML = ' *Ce champ est obligatoire';
+                message_prix.style.color = 'rgb(224, 0, 0)';
+            }
+
+            else if (isNaN(Prix.value)) {
+                valide = false;
+                message_prix.innerHTML = ' (✖) Veuillez entrer le Prix ';
+                message_prix.style.color = 'rgb(224, 0, 0)';
+            }
+            else if (Prix.value < 0) {
+                valide = false;
+                message_prix.innerHTML = ' (✖) Veuillez entrer le titre ';
+                message_prix.style.color = 'rgb(224, 0, 0)';
+            }
+            else {
+                message_prix.innerHTML = ' Réussir  ✔';
+                message_prix.style.color = 'green';
+            }
+
+
+
+
+
+
+
+
+            if (Datee.value == "") {
+                valide = false;
+                message_date.innerHTML = ' *Ce champ est obligatoire';
+                message_date.style.color = 'rgb(224, 0, 0)';
+            }
+            else {
+                message_date.innerHTML = ' Réussir  ✔';
+                message_date.style.color = 'green';
+            }
+
+
+            if (Langue.selectedIndex == "") {
+                valide = false;
+                message_langue.innerHTML = ' *Ce champ est obligatoire';
+                message_langue.style.color = 'rgb(224, 0, 0)';
+            }
+            else {
+                message_langue.innerHTML = ' Réussir  ✔';
+                message_langue.style.color = 'green'
+            }
+
+
+
+            
+
+            if (!(Typee[0].checked || Typee[1].checked || Typee[2].checked)) {
+                valide = false;
+                message_type.innerHTML = ' *Ce champ est obligatoire';
+                message_type.style.color = 'rgb(224, 0, 0)';
+            }
+            else {
+                message_type.innerHTML = ' Réussir  ✔';
+                message_type.style.color = 'green';
+            }
+
+
+
+            if (valide) {
+                var tr = table.insertRow(-1);
+                tr.insertCell(0).innerHTML = Titre.value;
+                tr.insertCell(1).innerHTML = Auteur.value;
+                tr.insertCell(2).innerHTML = Prix.value;
+                tr.insertCell(3).innerHTML = Datee.value;
+                tr.insertCell(4).innerHTML = Langue.options[Langue.selectedIndex].value;
+                tr.insertCell(5).innerHTML = Typee.value;
+                tr.insertCell(6).innerHTML = email.value;
+                tr.insertCell(7).innerHTML = "<input type='button' class='delete_btn' onclick='delete_row(this)' value='delete'><input type='button' class='edit_btn' onclick='edit_row(this)' value='Edit'>"
+                
+
+
+
+                     Titre.value = "";
+                     Auteur.value = "";
+                     Prix.value = "";
+                     Datee.value = "";
+                         Langue.value = "";
+                         email.value = "";
+               
+            }
+            var x = document.getElementsByName("type");
+            var i;
+            for (i = 0; i < x.length; i++) {
+            if (x[i].type == "radio") {
+            x[i].checked = false;
+            } }
+        }
+        function delete_row(replace){
+        var i = replace.parentNode.parentNode.rowIndex;
+        table.deleteRow(i);
+        }
+
+        function edit_row(replace){
+            var i = replace.parentNode.parentNode.rowIndex;
+            var row = table.rows[i];
+            
+            if(replace.value=="Edit"){
+                Titre.value = row.cells[0].innerHTML;
+                Auteur.value = row.cells[1].innerHTML;
+                Prix.value = row.cells[2].innerHTML;
+                Datee.value = row.cells[3].innerHTML;
+                Langue.value = row.cells[4].innerHTML;
+                email.value = row.cells[6].innerHTML;
+
+                for(var i=0;i<3;i++){
+                    if(Typee[i].value==row.cells[5].innerHTML){
+                        Typee[i].checked = true;
+                        break;
+                    }
+                }
+                replace.value = "Save";
+                document.getElementById('subm').setAttribute("disabled","true");
+            }
+            else{
+                row.cells[0].innerHTML = Titre.value;
+                row.cells[1].innerHTML = Auteur.value;
+                row.cells[2].innerHTML = Prix.value;
+                row.cells[3].innerHTML = Datee.value;
+                row.cells[4].innerHTML = Langue.value;
+                row.cells[6].innerHTML = email.value;
+
+                for(var i=0;i<3;i++){
+                    if(Typee[i].checked){
+                        row.cells[5].innerHTML = Typee[i].value;
+                        break;
+                    }
+                }
+                replace.value = "Edit";
+                document.getElementById('subm').removeAttribute("disabled");
+
+                Titre.value = "";
+                Auteur.value = "";
+                Prix.value = "";
+                Datee.value = "";
+                Langue.value = "";
+                email.value = "";
+               
+            }
+            var x = document.getElementsByName("type");
+            var i;
+            for (i = 0; i < x.length; i++) {
+            if (x[i].type == "radio") {
+            x[i].checked = false;
+            } }
+        }
+        validation.addEventListener('submit', validate)
+
+        function print_current_page() {
+            window.print();
+        }
+
+        // function bdprint(){
+        //     var tableDiv = document.getElementsByClassName("baba")[0].innerHTML;
+        //     var bodyContent = document.body.innerHTML;
+
+        //     document.body.innerHTML = tableDiv;
+        //     window.print();
+        //     document.body.innerHTML = bodyContent;
+        // }
+      
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
