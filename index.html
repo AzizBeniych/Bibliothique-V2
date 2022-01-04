@@ -9,6 +9,7 @@
     <title>Saddam Bibliothique</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="LOGGO.png">
+    
 </head>
 
 <body>
@@ -76,17 +77,19 @@
     <div class="baba">
     <table id="my_table" border="5" width="70%">
         <h1 id="Validation">Table de Livres</h1>
-        <tr>
-            <td>Titre</td>
-            <td>Auteur</td>
-            <td>Prix</td>
-            <td>Date</td>
-            <td>Langue</td>
-            <td>Type</td>
-            <td>Email</td>
-            <td>Control</td>
-        </tr>
+        <thead>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Prix</th>
+            <th>Date</th>
+            <th>Langue</th>
+            <th>Type</th>
+            <th>Email</th>
+            <th>Control</th>
+            </thead>
 
+            <tbody id="tbody">
+            </tbody>
     </table>
 </div>
         <p id="Observation"> Observation : Si vous souhaitez modifier votre choix, cliquez sur le bouton <span style="color: brown; font-weight: bold;"> Edit </span>et modifiez dans les champs ci-dessus, puis cliquez sur le bouton <span style="color: brown; font-weight: bold;">Save</span> à côté du bouton Edit </p>
@@ -103,7 +106,7 @@
 
         <button id="printbtn" onclick="print_current_page()">Print</button>
         
-        <p id="contenttable"></p>
+        <p id="contenttable">dsvsd</p>
 
     
     <script>
@@ -139,29 +142,35 @@
 
 
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        var formatprice = /^[0-9]+((\.[0-9]{2})|())$/;
 
-        
-        var list = [];
+        var content_table= document.getElementById("contenttable");
+
+        var bookList = [];
+
+        var tbody = document.getElementById("tbody");
 
 
 
 
-        class bookcontent {
 
-                constructor(Titre, Auteur, Prix, Datee, Langue,  email, Typee){
-                    this.Titre = Titre
-                    this.Auteur = Auteur
-                    this.Prix = Prix
-                    this.Datee = Datee
-                    this.Langue = Langue
-                    this.email = email
-                    this.Typee = Typee
+        class Book {
+                constructor(titre, auteur, prix, date, langue,  email, type){
+                    this.Titre = titre
+                    this.Auteur = auteur
+                    this.Prix = prix
+                    this.Date = date
+                    this.Langue = langue
+                    this.Email = email
+                    this.Type = type
                     
                 }
-                tablecontent(){
-                    return "The book " + this.Titre + " is a " + this.Typee + " in " + this.Langue +" language, written by " + this.Auteur + " and published on the " + this.Datee + ". The price of " +this.Titre+ " is " + this.Prix+ " Dhs."
+                
+                DetailsOuvrage(){
+                    return "The book " + this.Titre + " is a " + this.Type + " in " + this.Langue +" language, written by " + this.Auteur + " and published on the " + this.Date + ". The price of " +this.Titre+ " is " + this.Prix+ " Dhs."
                 }
             }
+
 
             // const books = [];
             // document.getElementById("demo").innerHTML = cars;
@@ -338,15 +347,56 @@
 
 
             if (valide) {
-                var tr = table.insertRow(-1);
-                tr.insertCell(0).innerHTML = Titre.value;
-                tr.insertCell(1).innerHTML = Auteur.value;
-                tr.insertCell(2).innerHTML = Prix.value;
-                tr.insertCell(3).innerHTML = Datee.value;
-                tr.insertCell(4).innerHTML = Langue.options[Langue.selectedIndex].value;
-                tr.insertCell(5).innerHTML = Typee.value;
-                tr.insertCell(6).innerHTML = email.value;
-                tr.insertCell(7).innerHTML = "<input type='button' class='delete_btn' onclick='delete_row(this)' value='delete'><input type='button' class='edit_btn' onclick='edit_row(this)' value='Edit'>"
+
+                
+               
+
+                // 1- Créer un objet ouvrage à partir des données du formulaire
+                var newBook = new Book(Titre.value, Auteur.value, Prix.value, Datee.value, Langue.options[Langue.selectedIndex].value, email.value, Typee.value);
+                bookList.push(newBook);
+                tbody.innerHTML = "";
+
+                
+
+                // 2- Trier la liste bookList selon le titre dans un ordre ascendant
+                // bookList.sort(); // à terminer
+
+                function sortTable(){
+                    bookList.sort(function(a,b){
+                        if(a.Titre < b.Titre){
+                            return -1;
+                        }
+                    })
+                }
+                
+                // 3- Alimenter la table HTML à partir de bookList
+
+
+                for(i=0; i<bookList.length; i++) {
+                    var myBook = bookList[i];
+                    var tr = table.insertRow(-1);
+                    tr.insertCell(0).innerHTML = myBook.Titre;
+                    tr.insertCell(1).innerHTML = myBook.Auteur;
+                    tr.insertCell(2).innerHTML = myBook.Prix;
+                    tr.insertCell(3).innerHTML = myBook.Date;
+                    tr.insertCell(4).innerHTML = myBook.Langue;
+                    tr.insertCell(5).innerHTML = myBook.Email;
+                    tr.insertCell(6).innerHTML = myBook.Type;
+                    tr.insertCell(7).innerHTML = "<input type='button' class='delete_btn' onclick='delete_row(this)' value='delete'><input type='button' class='edit_btn' onclick='edit_row(this)' value='Edit'>"
+
+                }
+                
+            
+                    
+                // var tr = table.insertRow(-1);
+                // tr.insertCell(0).innerHTML = Titre.value;
+                // tr.insertCell(1).innerHTML = Auteur.value;
+                // tr.insertCell(2).innerHTML = Prix.value;
+                // tr.insertCell(3).innerHTML = Datee.value;
+                // tr.insertCell(4).innerHTML = Langue.options[Langue.selectedIndex].value;
+                // tr.insertCell(5).innerHTML = Typee.value;
+                // tr.insertCell(6).innerHTML = email.value;
+                // tr.insertCell(7).innerHTML = "<input type='button' class='delete_btn' onclick='delete_row(this)' value='delete'><input type='button' class='edit_btn' onclick='edit_row(this)' value='Edit'>"
                 
 
 
@@ -359,6 +409,31 @@
                          email.value = "";
                
             }
+
+
+            // function fill (){
+            // for(var i=0; i<listBooks.length; i++){
+            // var tr = table.insertRow(-1);
+            //     tr.insertCell(0).innerHTML = list[i].Titre;
+            //     tr.insertCell(1).innerHTML = list[i].Auteur;
+            //     tr.insertCell(2).innerHTML = list[i].email;
+            //     tr.insertCell(3).innerHTML = list[i].Prix;
+            //     tr.insertCell(4).innerHTML = list[i].Datee;
+            //     tr.insertCell(5).innerHTML = list[i].Langue;
+            //     tr.insertCell(6).innerHTML = list[i].Typee;
+            //     tr.insertCell(7).innerHTML = "<input type='button' class='delete_btn' onclick='delete_row(this)' value='delete'><input type='button' class='edit_btn' onclick='edit_row(this)' value='Edit'>"
+            // }
+
+
+            // book = new bookcontent(Titre.value, Auteur.value, email.value, Prix.value, Datee.value, Langue.options[index].value, temp_cell);
+            // content_table.innerHTML = book.content_table();
+            // list.push(book);
+            // localStorage.setItem("list", JSON.stringify(list));
+            //     table.innerHTML="";
+            //     document.innerHTML = book;
+            //     sortTable()
+
+
             var x = document.getElementsByName("type");
             var i;
             for (i = 0; i < x.length; i++) {
@@ -424,6 +499,7 @@
             x[i].checked = false;
             } }
         }
+        
         validation.addEventListener('submit', validate)
 
         function print_current_page() {
