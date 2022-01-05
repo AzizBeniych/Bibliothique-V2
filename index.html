@@ -152,6 +152,7 @@
 
         var tbody = document.getElementById("tbody");
 
+        var temp_list = "";
 
 
 
@@ -173,7 +174,15 @@
                 }
             }
 
-
+           
+            temp_list = JSON.parse(localStorage.getItem("list"));
+            if(temp_list!=null)
+            {
+                for(i=0;i<temp_list.length;i++){
+                    var backupbook = new Books(temp_list[i].Titre,temp_list[i].Auteur,temp_list[i].email_author,temp_list[i].Prix,temp_list[i].Date,temp_list[i].Langue,temp_list[i].Type)
+                    bookList.push(backup_book);
+                }
+            }
 
 
 
