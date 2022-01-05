@@ -164,7 +164,7 @@
                     this.Prix = prix
                     this.Date = date
                     this.Langue = langue
-                    this.Email = email
+                    this.Email = emailo
                     this.Type = type
                     
                 }
@@ -172,17 +172,24 @@
                 DetailsOuvrage(){
                     return "Le livre " + this.Titre + " est un " + this.Type + " in " + this.Langue +"langue, écrite par " + this.Auteur + " et publié sur le " + this.Date + ".Le prix de " +this.Titre+ " est " + this.Prix+ " Dhs."
                 }
+            //     DetailsOuvrage(){
+            //         return `Le livre  + this.Titre +  est un " + this.Type + " in " + this.Langue +"langue, écrite par " + this.Auteur + " et publié sur le " + this.Date + ".Le prix de " +this.Titre+ " est " + this.Prix+ " Dhs.`
+            //     }
             }
 
-           
-            temp_list = JSON.parse(localStorage.getItem("list"));
-            if(temp_list!=null)
-            {
-                for(i=0;i<temp_list.length;i++){
-                    var backupbook = new Books(temp_list[i].Titre,temp_list[i].Auteur,temp_list[i].email_author,temp_list[i].Prix,temp_list[i].Date,temp_list[i].Langue,temp_list[i].Type)
-                    bookList.push(backup_book);
-                }
-            }
+
+                    var storage = JSON.parse(localStorage.getItem("ouvrages"))
+                    for(var i =0 ; i<storage.length; i++){
+                        bookList.push(storage[i]);
+                    }
+            // temp_list = JSON.parse(localStorage.getItem("list"));
+            // if(temp_list!=null)
+            // {
+            //     for(i=0;i<temp_list.length;i++){
+            //         var backupbook = new Books(temp_list[i].Titre,temp_list[i].Auteur,temp_list[i].email_author,temp_list[i].Prix,temp_list[i].Date,temp_list[i].Langue,temp_list[i].Type)
+            //         bookList.push(backup_book);
+            //     }
+            // }
 
 
 
@@ -369,7 +376,7 @@
             //     message_prix.innerHTML = ' (✖) Veuillez entrer le titre ';
             //     message_prix.style.color = 'rgb(224, 0, 0)';
             // }
-            // else {
+            // else {       
             //     message_prix.innerHTML = ' Réussir  ✔';
             //     message_prix.style.color = 'green';
             // }
@@ -440,6 +447,8 @@
                 
                 trie();
 
+                localStorage.setItem("ouvrages" , JSON.stringify(bookList));
+
                   // // console.log(newBook.DetailsOuvrage())
                 // par.innerHTML = newBook.DetailsOuvrage
 
@@ -454,17 +463,16 @@
                 //         }
                 //     })
                 // }
-                            
-            //                 arr.sort(function(a, b) {
+                             
             //     return a === b ? 0 : a < b ? -1 : 1;
             // });
                 // 3- Alimenter la table HTML à partir de bookList
 
-
+                
                 for(i=0; i<bookList.length; i++) {
                     var myBook = bookList[i];
                     var tr = tbody.insertRow(-1);
-                    tr.insertCell(0).innerHTML = myBook.Titre;
+                    tr.insertCell(0).innerHTML = myBook.Titre;                          
                     tr.insertCell(1).innerHTML = myBook.Auteur;
                     tr.insertCell(2).innerHTML = myBook.Prix;
                     tr.insertCell(3).innerHTML = myBook.Date;
